@@ -1,31 +1,55 @@
 <?php
-$letters = str_split("ABCDEFGHIJKLMNOPQRSTUVXWYZÇabcdefghijklmnopqrstuvxwyzç");
+$letters = str_split("ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvxwyz");
 $numbers = str_split("1234567890");
-$simbols = str_split("-_=!@#&.,;~");
+$simbols = str_split("-_=!@#&.,;");
 $username_split = str_split($_POST['username']);
 $username_text = "";
 $has_space = false;
+$invalid_character = false;
 
 for($a = 0; $a < count($username_split); $a++){
-    $c = false;
-    while(!$c){
+    $finished = false;
+    $not_found = 0;
+    while(!$finished){
+        if($username_split[$a] == " "){
+            $username_text .= " ";
+            $has_space = true;
+            $finished = true;
+        }else{
+            $not_found++;
+        }
         for($b = 0; $b < count($letters); $b++){
             if($username_split[$a] == $letters[$b]){ 
-                $username_text .= "-$letters[$b]";
-                $c = true;
+                $username_text .= "$letters[$b]";
+                $finished = true;
+            }
+            if($b == count($letters)){
+                $not_found++;
+                $test = count($letters)-1;
+                echo "$test";
             }
         }
         for($b = 0; $b < count($numbers); $b++){
             if($username_split[$a] == $numbers[$b]){ 
-                $username_text .= "-$numbers[$b]";
-                $c = true;
+                $username_text .= "$numbers[$b]";
+                $finished = true;
+            }
+            if($b == count($numbers)){
+                $not_found++;
             }
         }
         for($b = 0; $b < count($simbols); $b++){
             if($username_split[$a] == $simbols[$b]){ 
-                $username_text .= "-$simbols[$b]";
-                $c = true;
+                $username_text .= "$simbols[$b]";
+                $finished = true;
             }
+            if($b == count($simbols)){
+                $not_found++;
+            }
+        }
+        if($not_found == 4){
+            $invalid_character = true;
+            $finished = true;
         }
     }
 }
@@ -36,12 +60,15 @@ if(strlen($username_text) == 0){
         echo "erro: Usuário inválido<br>";	
     }
 }
-elseif(strlen($username_text) <= 3 || strlen($username_text) >= 15){
-    echo "erro: O usuário tem que ter no mínimo 4 e no máximo 14 caracteres<br>";
+elseif(strlen($username_text) <= 3 || strlen($username_text) >= 25){
+    $len = strlen($username_text);
+    echo "erro: O usuário tem que ter no mínimo 4 e no máximo 24 caracteres<br> $len";
 }
 elseif($has_space){
     $with_point = str_replace(" ",".",$username_text);
     echo "erro: O usuário não pode conter espaços<br>Mas você pode tentar usar o nome: $with_point<br>";
+}elseif($invalid_character){
+    echo "erro: O usuário não pode conter caracteres especiais não permitidos<br>Permitidos: _-=!@#&.,;<br>";
 }
-echo "texto = $username_text";
+echo "texto = $username_text <br> texto_str=$username_text<br>";
 ?>

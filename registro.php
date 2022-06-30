@@ -47,45 +47,80 @@
       <div class="col"></div>
       <div class="col"></div>
       <div class="col">
-        <?php
-                    require('db.php');
-                    if (isset($_REQUEST['email'])) {
-                        $username = stripslashes($_REQUEST['username']);
-                        $username = mysqli_real_escape_string($connect, $username);
-                        $email    = stripslashes($_REQUEST['email']);
-                        $email    = mysqli_real_escape_string($connect, $email);
-                        $password = stripslashes($_REQUEST['password']);
-                        $password = hash('sha256', $password);
-                        $password = mysqli_real_escape_string($connect, $password);
-                        $create_datetime = date("Y-m-d H:i:s");
-                        $query    = "INSERT into `users` (username, password, email, create_datetime)
-                                     VALUES ('$username', '" . $password . "', '$email', '$create_datetime')";
-                        $result   = mysqli_query($connect, $query);
-                    }else{
-                        echo "<form class='form' action='' method='post'>
-                        <div id='forms'>
-                        <div class='mb-1 mt-5'>
-                            <label for='user' class='form-label'>Usuário:</label>
-                            <input type='text' class='form-control' placeholder='Seu usuário' name='username'>
-                        </div>
-                        <div class='mb-1'>
-                            <label for='email' class='form-label'>Email:</label>
-                            <input type='email' class='form-control' placeholder='Seu email' name='email'>
-                        </div>
-                        <div class='mb-3'>
-                            <label for='pwd' class='form-label'>Senha:</label>
-                            <input type='password' id='password' class='form-control' placeholder='Sua senha' name='password'>
-                        </div>
-                        <button type='submit' id='submit' class='btn btn-primary'>Próximo</button>
-                        </div>
-                        </form>";
-                    }
-                ?>
-      </div>
-      <div class="col"></div>
-      <div class="col"></div>
+      <form class='form' action='registro_db.php' method='post'>
+        <div id='forms'>
+          <div class='mb-1 mt-5'>
+          <?php
+    $x = parse_url($_SERVER['REQUEST_URI']);
+    if(count($x) >= 2){
+      if($x['query']){
+        $err = "error=";
+        $len = strlen($err);
+        if(substr($x['query'], 0, $len) === $err){
+          $error = substr($x['query'], $len, 2);
+          $error_message = "";
+          $valid = true;
+          switch($error){
+            case "01":
+              $error_message = "Escreva um nome de usuário";
+              break;
+            case "02":
+              $error_message = "Usuário inválido";
+              break;
+            case "03":
+              $error_message = "O usuário tem que ter no mínimo 4 e no máximo 24 caracteres";
+              break;
+            case "04":
+              $user = substr($x['query'], 9);
+              $error_message = "O usuário não pode conter espaços<br>Você pode tentar usar: <strong>$user</strong>";
+              break;
+            case "05":
+              $error_message = "O usuário não pode conter alguns caracteres especiais!<br><strong>Permitidos: _-=!@#&.,;</strong>";
+              break;
+            case "06":
+              $error_message = "Escreva uma senha";
+              break;
+            case "07":
+              $error_message = "A senha tem que conter no mínimo 8 e no máximo 24 caracteres";
+              break;    
+            case "08":
+              $error_message = "A senha não pode conter espaços";
+              break;
+            case "09":
+              $error_message = "A senha não pode conter alguns caracteres especiais!<br><strong>Permitidos: _-=!@#&.,;</strong>";
+              break;
+            case "10":
+              $error_message = "Esse usuário já existe";
+              break;
+            case "11":
+              $error_message = "Não foi possível criar a conta";
+              break;
+            default:
+              $valid = false;
+              break;
+        }
+        if($valid){
+          echo "<div class='alert alert-danger mb-1 mt-5'>$error_message</div>";  
+        }
+      }
+    }
+  }
+  ?>
+            <label for='user' class='form-label'>Usuário:</label>
+            <input type='text' class='form-control' placeholder='Seu usuário' name='username'>
+          </div>
+          <div class='mb-3'>
+            <label for='pwd' class='form-label'>Senha:</label>
+            <input type='password' id='password' class='form-control' placeholder='Sua senha' name='password'>
+          </div>
+          <button type='submit' id='submit' class='btn btn-primary'>Próximo</button>
+        </div>
+      </form>
     </div>
+    <div class="col"></div>
+    <div class="col"></div>
   </div>
+</div>
 </div>
 </body>
 </html>

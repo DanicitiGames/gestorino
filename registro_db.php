@@ -56,7 +56,6 @@ for($a = 0; $a < count($username_split); $a++){
     }
 }
 function redirect($error, $more) {
-    $more = "";
     ob_start();
     header('Location: '."https://localhost/registro.php?error=$error$more");
     ob_end_flush();

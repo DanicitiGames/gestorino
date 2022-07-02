@@ -1,3 +1,9 @@
+<?php
+if(!isset($_SESSION)){ 
+  session_start();
+}
+include('deslogado.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,7 +17,7 @@
 <body style="background-color: #363636;max-width: 100%;overflow-x: hidden;">
   <div style="background-image: linear-gradient(to bottom right, #90A4AE, #546E7A);">
     <div class="row shadow mb-4">
-      <div class="col-9">
+      <div class="col">
         <nav class="navbar navbar-expand-sm navbar-light">
           <div class="container-fluid">
             <ul class="navbar-nav">
@@ -22,21 +28,18 @@
           </div>
         </nav>
       </div>
-      <div class="col">
+      <div class="col d-flex flex-row-reverse">
         <nav class="navbar navbar-expand-sm navbar-light">
           <div class="container-fluid">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav justify-content-end">
               <li class="nav-item">
                 <a class="nav-link" href="sobre.php">Sobre</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Planos</a>
+                <a class="nav-link" href="registro.php">Registro</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="#">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="registro.php">Registro</a>
               </li>
             </ul>
           </div>
@@ -49,12 +52,46 @@
             <div class="col">
             <form action="login_db.php" method="POST">
                 <div class="mb-1 mt-5">
+<?php
+$x = parse_url($_SERVER['REQUEST_URI']);
+if(count($x) >= 2){
+  if($x['query']){
+    $err = "error=";
+    $len = strlen($err);
+    if(substr($x['query'], 0, $len) === $err){
+      $error = substr($x['query'], $len, 2);
+      $error_message = "";
+      $valid = true;
+      switch($error){
+        case "01":
+          $error_message = "Usuário inválido";
+          break;
+        case "02":
+          $error_message = "Escreva o usuário";
+          break;
+        case "03":
+          $error_message = "Senha inválida";
+          break;
+        case "04":
+          $user = substr($x['query'], 9);
+          $error_message = "Escreva uma senha";
+          break;
+        case "05":
+          $error_message = "O usuário ou senha estão incorretos!";
+          break;
+        default:
+          $valid = false;
+          break;
+    }
+    if($valid){
+      echo "<div class='alert alert-danger mb-1 mt-5'>$error_message</div>";  
+    }
+  }
+}
+}
+?>
                     <label for="text" class="form-label">Usuário:</label>
                     <input type="text" class="form-control" placeholder="Seu usuário" name="username">
-                </div>
-                <div class="mb-1">
-                  <label for="email" class="form-label">Email:</label>
-                  <input type="email" class="form-control" placeholder="Seu email" name="email">
                 </div>
                 <div class="mb-3">
                     <label for="pwd" class="form-label">Senha:</label>

@@ -1,3 +1,9 @@
+<?php
+if(!isset($_SESSION)){ 
+  session_start();
+} 
+include('logado.php');
+?>
 <!DOCTYPE html>
 <html lang="pt">
 <head>

@@ -1,3 +1,9 @@
+<?php
+if(!isset($_SESSION)){ 
+  session_start();
+}
+include('deslogado.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +28,7 @@
           </div>
         </nav>
       </div>
-      <div class="col">
+      <div class="col d-flex flex-row-reverse">
         <nav class="navbar navbar-expand-sm navbar-light">
           <div class="container-fluid">
             <ul class="navbar-nav">
@@ -30,13 +36,10 @@
                 <a class="nav-link" href="sobre.php">Sobre</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Planos</a>
+                <a class="nav-link active" href="#">Registro</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="login.php">Login</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="#">Registro</a>
               </li>
             </ul>
           </div>
@@ -113,7 +116,7 @@
             <label for='pwd' class='form-label'>Senha:</label>
             <input type='password' id='password' class='form-control' placeholder='Sua senha' name='password'>
           </div>
-          <button type='submit' id='submit' class='btn btn-primary'>Próximo</button>
+          <button type='submit' id='submit' class='btn btn-primary'>Registrar-se</button>
         </div>
       </form>
     </div>

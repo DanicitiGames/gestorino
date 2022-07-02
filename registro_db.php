@@ -1,4 +1,8 @@
 <?php
+if(!isset($_SESSION)){ 
+    session_start();
+}
+include("deslogado.php");
 $letters = str_split("ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvxwyz");
 $numbers = str_split("1234567890");
 $simbols = str_split("-_=!@#&.,;");

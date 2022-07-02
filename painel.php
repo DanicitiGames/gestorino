@@ -14,15 +14,43 @@ include('logado.php');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-<body style="background-color: #363636;max-width: 100%;overflow-x: hidden;">
+<body style="max-width: 100%; overflow-x: hidden;">
+<div style="background-image: linear-gradient(to bottom right, #90A4AE, #546E7A);">
+<div class="row shadow mb-4">
+<div class="col-9">
+<nav class="navbar navbar-expand-sm navbar-light">
     <div class="container-fluid">
-      <div class="row" style="color: #ECF0F1">
-        <div class="col-1 p-2" style="background: #232323">Menu</div>
-        <div class="col p-2" style="background: #2d2d2d">Empresa teste</div>
-      </div>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link active" href="index.php"><?php echo $_SESSION['username']; ?></a>
+            </li>
+        </ul>
     </div>
-    <div class="row" style="color: #ECF0F1">
-      <div class="col-5" style="background: #363636">
+</nav>
+</div>
+<div class="col d-flex flex-row-reverse">
+<nav class="navbar navbar-expand-sm navbar-light">
+    <div class="container-fluid">
+        <ul class="navbar-nav">
+            <?php
+                echo '<li class="nav-item">
+                <a class="nav-link active" href="#">Painel</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="perfil.php">Perfil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="deslogar.php">Sair</a>
+            </li>';
+            ?>
+        </ul>
+    </div>
+</nav>
+</div>
+</div>
+
+<div class="row">
+      <div class="col-5">
         <div class="container mt-3">
           <h2>Últimas atualizações:</h2>
           <div class="table-responsive">
@@ -41,7 +69,7 @@ include('logado.php');
           </div>
         </div>
       </div>
-      <div class="mt-2 p-2 col-5" style="background: #363636">
+      <div class="mt-2 p-2 col-5">
         <div>
           <div class="input-group">
             <input type="text" class="form-control" placeholder="00" id="horas">

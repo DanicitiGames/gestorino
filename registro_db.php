@@ -143,10 +143,12 @@ elseif($username_has_space){
             if($connect->query($sql) === FALSE){
                 redirect("11","");
             }else{
-                ob_start();
-                header('Location: '."https://localhost/index.php");
-                ob_end_flush();
-                die();
+                if(!isset($_SESSION)){ 
+                    session_start();
+                } 
+                $_SESSION['username'] = $username_text;
+                header('Location: '."https://localhost/painel.php");
+                exit();
             }
         }
     }

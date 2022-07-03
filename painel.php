@@ -37,7 +37,7 @@ include('logado.php');
                 <a class="nav-link active" href="#">Painel</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="perfil.php">Perfil</a>
+                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#myModal">Perfil</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="deslogar.php">Sair</a>
@@ -47,6 +47,32 @@ include('logado.php');
     </div>
 </nav>
 </div>
+</div>
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Perfil de: <u><?php echo $_SESSION['username']; ?></u></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+<?php
+include('db.php');
+$user = $_SESSION['username'];
+$sql = "SELECT create_datetime FROM users WHERE username = '$user'";
+$result = $connect->query($sql);
+$row = $result->fetch_assoc();
+$date = $row['create_datetime'];
+$date = date('Y-m-d H:i:s', strtotime($date));
+$user = $_SESSION['username'];
+echo "Nome: $user<br>Data de criação: $date";
+?>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="row">

@@ -14,7 +14,7 @@ if(!isset($_SESSION)){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body style="max-width: 100%; overflow-x: hidden;">
-<div style="background-image: linear-gradient(to bottom right, #90A4AE, #546E7A);">
+<div style="background-image: linear-gradient(to bottom right, #4f4668, #655c78);">
 <div class="row shadow mb-4">
 <div class="col-9">
 <nav class="navbar navbar-expand-sm navbar-light">
@@ -69,5 +69,6 @@ if(!isset($_SESSION)){
             <a href="sobre.php" class="btn btn-success shadow mb-4">Saiba mais</a>
         </div>
     </div>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>
 </body>

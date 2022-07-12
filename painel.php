@@ -15,7 +15,7 @@ include('logado.php');
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body style="max-width: 100%; overflow-x: hidden;">
-<div style="background-image: linear-gradient(to bottom right, #90A4AE, #546E7A);">
+<div style="background-image: linear-gradient(to bottom right, #4f4668, #655c78);">
 <div class="row shadow mb-4">
 <div class="col-9">
 <nav class="navbar navbar-expand-sm navbar-light">
@@ -74,148 +74,14 @@ echo "Nome: $user<br>Data de criação: $date";
     </div>
   </div>
 </div>
-<div class="row">
-      <div class="col-5">
-        <div class="container mt-3">
-          <h2>Últimas atualizações:</h2>
-          <div class="table-responsive">
-            <table class="table table-dark">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Data</th>
-                  <th>Operação</th>
-                  <th>Valor</th>
-                </tr>
-              </thead>
-              <tbody id="valores">
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="mt-2 p-2 col-5">
-        <div>
-<form class="input-group" action='painel_script.php' method='post'>
-            <input type="text" class="form-control" placeholder="00" id="horas">
-            <span class="input-group-text">:</span>
-            <input type="text" class="form-control" placeholder="00" id="minutos">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" id="text_dia">Dia</button>
-            <ul class="dropdown-menu">
-            <li><a class="dropdown-item" onclick='atualizar_dt("??")'>??</a></li>
-            <li><hr class="dropdown-divider"></hr></li>
-            <?php
-              $a = 31;
-              while($a!=0){
-                if($a < 10){
-                  echo "<li><a class='dropdown-item' onclick='atualizar_dt('$a')'>0$a</a></li>";
-                }else{
-                  echo "<li><a class='dropdown-item' onclick='atualizar_dt('$a')'>$a</a></li>";
-                }
-                $a--;
-              }
-              echo '</ul>
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" id="text_mes">Mes</button>
-              <ul class="dropdown-menu">
-              <li><a class="dropdown-item" onclick="atualizar_ms("??")">??</a></li>
-              <li><hr class="dropdown-divider"></hr></li>';
-              $b = 12;
-              while($b!=0){
-                if($b < 10){
-                  echo "<li><a class='dropdown-item' onclick='atualizar_ms(\"0$b\")'>0$b</a></li>";
-                }else{
-                  echo "<li><a class='dropdown-item' onclick='atualizar_ms(\"$b\")'>$b</a></li>";
-                }
-                $b--;
-              }
-            echo '</ul>
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" id="text_ano">Ano</button>
-            <ul class="dropdown-menu">
-            <li><a class="dropdown-item" onclick="atualizar_an("????")">????</a></li>
-            <li><hr class="dropdown-divider"></hr></li>';
-            $c = 2022;
-            while($c!=2009){
-              echo "<li><a class='dropdown-item' onclick='atualizar_an(\"$c\")'>$c</a></li>";
-              $c--;
-            }
-            ?>
-            </ul>
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" id="text_op">Venda</button>
-            <ul class="dropdown-menu">
-            <li><a class="dropdown-item" onclick='atualizar_op("Venda")'>Venda</a></li>
-            <li><a class="dropdown-item" onclick='atualizar_op("Compra")'>Compra</a></li>
-            <li><a class="dropdown-item" onclick='atualizar_op("Saque")'>Saque</a></li>
-            <li><a class="dropdown-item" onclick='atualizar_op("Deposito")'>Deposito</a></li>
-          </ul>
-            <span class="input-group-text">R$:</span>
-            <input type="text" class="form-control" placeholder="00,00" id="valor">
-          <button type="button" class="btn btn-primary" onclick='atualizar()'>Inserir</button>
-</form>
-        <div>
-          <h1 id="saldo">Saldo: </h1>
-        </div>
-        </div>
-      </div>
-    </div>
+
+<div class="d-flex p-3">
+
+<div class="col p-2 pt-5 container-fluid"></div>
+<div class="col p-2 pt-5 container-fluid"></div>
+
+</div>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
 </body>
-<script>
-window.addEventListener("load", function(){
-  let data = new Date();
-  let hora = data.getHours();
-  let min = data.getMinutes();
-  let dia = data.getDate();
-  let mes = data.getMonth()+1;
-  let ano = data.getFullYear();
-  if(hora<10){
-    hora = "0"+hora;
-  }
-  if(min<10){
-    min = "0"+min;
-  }
-  document.getElementById("horas").value = hora;
-  document.getElementById("minutos").value = min;
-  document.getElementById("text_dia").innerText = dia;
-  document.getElementById("text_mes").innerText = mes;
-  document.getElementById("text_ano").innerText = ano;
-  let td = document.getElementsByTagName("td");
-  let saldo = 0;
-  let value = 0;
-  let td_saldo = document.getElementsByTagName("td");
-  for(let i=0; i<td_saldo.length; i++){
-    if(i%4==3){
-      value = parseFloat(String(String(String(td_saldo[i].innerText).slice(3)).replace(".","").replace(",","")));
-      if(!Number(value)){
-        value = 0;
-      }
-      switch(td_saldo[i-1].innerText){
-        case "Venda":
-        case "Deposito":
-          saldo += value;
-          break;
-        case "Compra":
-        case "Saque":
-          saldo -= value;
-          break;
-      }
-    }
-  }
-  saldo_text = String(saldo).slice(0,String(saldo).length-2) + "," + String(saldo).slice(String(saldo).length-2);
-  if(saldo_text == ",0"){
-    saldo_text = "0,00";
-  }
-  document.getElementById("saldo").innerText = "Saldo: R$"+saldo_text;
-});
-function atualizar_op(text){
-  document.getElementById("text_op").innerText = text;
-}
-function atualizar_dt(text){
-  document.getElementById("text_dia").innerText = text;
-}
-function atualizar_ms(text){
-  document.getElementById("text_mes").innerText = text;
-}
-function atualizar_an(text){
-  document.getElementById("text_ano").innerText = text;
-}
-</script>
 </html>

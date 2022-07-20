@@ -142,10 +142,7 @@ elseif($username_has_space){
             redirect("10","");
         }else{
             $password = hash('sha256',$_POST['password']);
-            $timestamp = time();
-            $data = new DateTime("now", new DateTimeZone('America/Sao_Paulo'));
-            $data->setTimestamp($timestamp);
-            $create_datetime = $data->format('d-m-Y H:i:s');
+            $create_datetime = date("Y-m-d H:i:s", time() - 5 * 60 * 60);
             $sql = "INSERT INTO users (username, password, create_datetime) VALUES ('$username_text', '$password', '$create_datetime')";
             if($connect->query($sql) === FALSE){
                 redirect("11","");

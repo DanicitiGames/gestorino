@@ -3,7 +3,7 @@ if(!isset($_SESSION)){
   session_start();
 }
 ?>
-<DOCTYPE! html>
+<!DOCTYPE html>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -15,49 +15,45 @@ if(!isset($_SESSION)){
 </head>
 <body style="max-width: 100%; overflow-x: hidden;">
 <div style="background-image: linear-gradient(to bottom right, #4f4668, #655c78);">
-<div class="row shadow mb-4">
-<div class="col-9">
+<div class="row shadow mb-5">
 <nav class="navbar navbar-expand-sm navbar-light">
-    <div class="container-fluid">
-        <ul class="navbar-nav">
+  <div class="container-fluid">
+  <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link active" href="#"><h3 style="color:#191620">Gestorino</h3></a>
+        </li>
+    </ul>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+        <ul class="navbar-nav me-auto">
             <li class="nav-item">
-                <a class="nav-link active" href="#">Gestorino</a>
+                <a class="nav-link" href="javascript:void(0)">FAQ</a>
             </li>
-        </ul>
-    </div>
-</nav>
-</div>
-<div class="col d-flex flex-row-reverse">
-<nav class="navbar navbar-expand-sm navbar-light">
-    <div class="container-fluid">
-        <ul class="navbar-nav">
-            <?php
-            if(count($_SESSION) > 0){
-                echo '<li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link" href="sobre.php">Sobre</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="painel.php">Painel</a>
+                <a class="nav-link" href="javascript:void(0)">Contato</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="deslogar.php">Sair</a>
-            </li>';
-            }else{
-        echo '<li class="nav-item">
-                <a class="nav-link" href="sobre.php">Sobre</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="registro.php">Registro</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="login.php">Login</a>
-            </li>';
-            }
-            ?>
         </ul>
+        <div class="d-flex">
+        <ul class="navbar-nav me-auto">
+    <?php
+    if(count($_SESSION) == 0){
+        echo '<li class="nav-item"><a class="nav-link" href="registro.php">Registro</a></li>
+              <li class="nav-item"><a class="nav-link" href="login.php">Login</a></li>';
+    }else{
+        echo '<li class="nav-item"><a class="nav-link" href="painel.php">Painel</a></li>
+              <li class="nav-item"><a class="nav-link" href="deslogar.php">Sair</a></li>';
+    }
+    ?>
+        </ul>
+        </div>
     </div>
-</nav>
-</div>
+  </div>
+</nav> 
 </div>
     <p class="text-center display-1" style="color: #DC3545">Gestorino</p>
     <p class="text-center display-6" style="color: #EEEEEE">Sua plataforma favorita de gestão</p>

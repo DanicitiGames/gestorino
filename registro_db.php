@@ -5,6 +5,7 @@ if(!isset($_SESSION)){
 include("deslogado.php");
 $letters = str_split("ABCDEFGHIJKLMNOPQRSTUVXWYZabcdefghijklmnopqrstuvxwyz");
 $numbers = str_split("1234567890");
+$uidcode = str_split("abcdefghijklmnopqrstuvxwyz1234567890");
 $simbols = str_split("-_=!@#&.,;");
 $username_split = str_split($_POST['username']);
 $username_text = "";
@@ -61,7 +62,7 @@ for($a = 0; $a < count($username_split); $a++){
 }
 function redirect($error, $more) {
     ob_start();
-    header('Location: '."https://localhost/registro.php?error=$error$more");
+    header('Location: '."./registro.php?error=$error$more");
     ob_end_flush();
     die();
 }
@@ -143,7 +144,26 @@ elseif($username_has_space){
         }else{
             $password = hash('sha256',$_POST['password']);
             $create_datetime = date("Y-m-d H:i:s", time() - 5 * 60 * 60);
-            $sql = "INSERT INTO users (username, password, create_datetime) VALUES ('$username_text', '$password', '$create_datetime')";
+            $uid = "user_";
+            $ip = $_SERVER["REMOTE_ADDR"];
+            $device = $_SERVER["HTTP_USER_AGENT"];
+            for($a = 0; $a < 14; $a++){
+                $uid .= $numbers[rand(0, count($numbers) - 1)];
+            }
+            $sql = "INSERT INTO users (uid, username, password, create_datetime) VALUES ('$uid', '$username_text', '$password', '$create_datetime')";
+            if($connect->query($sql) === FALSE){
+                redirect("11","");
+            }
+            
+            $sql = "CREATE TABLE IF NOT EXISTS $uid (date datetime, ip text, device text)";
+            if($connect->query($sql) === FALSE){
+                redirect("11","");
+            }
+            $sql = "INSERT INTO $uid (date, ip, device) VALUES ('$create_datetime', '$ip', '$device')";
+            if($connect->query($sql) === FALSE){
+                redirect("11","");
+            }
+            $sql = "INSERT INTO $uid (date, ip, device) VALUES ('$create_datetime', '$ip', '$device')";
             if($connect->query($sql) === FALSE){
                 redirect("11","");
             }else{
@@ -151,7 +171,8 @@ elseif($username_has_space){
                     session_start();
                 } 
                 $_SESSION['username'] = $username_text;
-                header('Location: '."https://localhost/painel.php");
+                $_SESSION['uid'] = $uid;
+                header('Location: '."./painel.php");
                 exit();
             }
         }

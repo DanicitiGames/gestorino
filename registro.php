@@ -56,8 +56,8 @@ include('deslogado.php');
   </div>
 </nav> 
 </div>
+<center>
     <div class="row" style="color: #ECF0F1">
-      <div class="col"></div>
       <div class="col"></div>
       <div class="col">
       <form class='form' action='registro_db.php' method='post'>
@@ -130,9 +130,10 @@ include('deslogado.php');
         </div>
       </form>
     </div>
-    <div class="col"></div>
-    <div class="col"></div>
-  </div>
+        <div class="col"></div>
+        </div>
+        </center>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 </div>
 </div>
 </body>

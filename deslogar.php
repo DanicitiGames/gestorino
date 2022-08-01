@@ -3,5 +3,5 @@ if(!isset($_SESSION)){
     session_start();
   } 
 session_destroy();
-header('Location: '."https://localhost/index.php");
+header('Location: index.php');
 exit();

@@ -6,7 +6,7 @@ include('deslogado.php');
 include('db.php');
 function redirect($error) {
     ob_start();
-    header("Location: https://localhost/login.php?error=$error");
+    header("Location: ./login.php?error=$error");
     ob_end_flush();
     die();
 }
@@ -121,15 +121,23 @@ if($username_has_space == true || $username_invalid_character == true){
             redirect("4");
         }else{
             $password_text = hash('sha256', $password_text);
-            $query = "SELECT username FROM users WHERE username = '${username_text}' AND password = '${password_text}'";
-            $result = mysqli_query($connect, $query);
-            $row = mysqli_num_rows($result);
-            if($row == 1){
+            $query = "SELECT * FROM users WHERE username = '${username_text}' AND password = '${password_text}'";
+            $result = $connect->query($query);
+            $row = $result->fetch_assoc();
+            if($row >= 1){
+                $uid = $row['uid'];
+                $ip = $_SERVER['REMOTE_ADDR'];
+                $device = $_SERVER['HTTP_USER_AGENT'];
+                $date = date("Y-m-d H:i:s", time() - 5 * 60 * 60);
+                $sql = "INSERT INTO $uid (date, ip, device) VALUES ('$date', '$ip', '$device')";
+                $connect->query($sql);
                 if(!isset($_SESSION)){ 
                     session_start();
                 } 
                 $_SESSION['username'] = $username_text;
-                header('Location: painel.php');
+                $_SESSION['uid'] = $uid;
+                header('Location: '."./painel.php");
+                exit();
             }else{
                 redirect("5");
             } 

@@ -4,7 +4,7 @@ if(!isset($_SESSION)){
 }
 if(count($_SESSION) > 0){
     if($_SESSION['username']){
-        header('Location: https://localhost/index.php');
+        header('Location: index.php');
         exit();
     }
 }

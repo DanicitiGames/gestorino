@@ -16,8 +16,31 @@ include('logado.php');
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
 </head>
-
 <body style="max-width: 100%; overflow-x: hidden;">
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Perfil de: <u><?php echo $_SESSION['username']; ?></u></h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+<?php
+include('db.php');
+$user = $_SESSION['username'];
+$sql = "SELECT create_datetime FROM users WHERE username = '$user'";
+$result = $connect->query($sql);
+$row = $result->fetch_assoc();
+$date = $row['create_datetime'];
+$date = date('Y-m-d H:i:s', strtotime($date));
+$user = $_SESSION['username'];
+$uid = $_SESSION['uid'];
+echo "Nome: $user<br>UID: $uid<br>Data de criação: $date";
+?>
+      </div>
+    </div>
+  </div>
+</div>
   <div style="background-image: linear-gradient(to bottom right, #ce93d8, #81d4fa);">
     <div class="row shadow">
       <nav class="navbar navbar-expand-sm navbar-light">
@@ -48,7 +71,7 @@ include('logado.php');
               <ul class="navbar-nav me-auto">
                 <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#myModal">Perfil</a></li>
                 <li class="nav-item"><a class="nav-link" href="javascript:void(0)"><strong>Painel</strong></a></li>
-                <li class="nav-item"><a class="nav-link" href="deslogar.php">Sair</a></li>'
+                <li class="nav-item"><a class="nav-link" href="deslogar.php">Sair</a></li>
               </ul>
             </div>
           </div>
@@ -57,15 +80,10 @@ include('logado.php');
     </div>
     <?php
     if(!isset($_POST['switch'])){
-      echo '<form method="post">
-      <nav class="navbar navbar-expand-sm navbar-light">
-      <input type="submit" class="btn shadow" style="color:#574764" name="switch" id="Cadastro" value="Cadastro"/>
-      <input type="submit" class="btn" style="color:#574764" name="switch" id="Principal" value="Principal"/>
-      <input type="submit" class="btn" style="color:#574764" name="switch" id="Gráficos" value="Gráficos"/>
-      <input type="submit" class="btn" style="color:#574764" name="switch" id="Histórico" value="Histórico"/>
-      </nav>
-      </form>
-      <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
+      $_POST['switch'] = 'Principal';
+      include('principal.php');
+    }else{
+      funcao($_POST);
     }
     function funcao()
     {
@@ -73,41 +91,14 @@ include('logado.php');
         include('graficos.php');
       }
       if($_POST['switch'] == 'Cadastro'){
-        echo '<form method="post">
-        <nav class="navbar navbar-expand-sm navbar-light">
-        <input type="submit" class="btn shadow" style="color:#574764" name="switch" id="Cadastro" value="Cadastro"/>
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Principal" value="Principal"/>
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Gráficos" value="Gráficos"/>
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Histórico" value="Histórico"/>
-        </nav>
-        </form>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
+        include('cadastro.php');
       }
       if($_POST['switch'] == 'Principal'){
-        echo '<form method="post">
-        <nav class="navbar navbar-expand-sm navbar-light">
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Cadastro" value="Cadastro"/>
-        <input type="submit" class="btn shadow" style="color:#574764" name="switch" id="Principal" value="Principal"/>
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Gráficos" value="Gráficos"/>
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Histórico" value="Histórico"/>
-        </nav>
-        </form>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
+        include('principal.php');
       }
       if($_POST['switch'] == 'Histórico'){
-        echo '<form method="post">
-        <nav class="navbar navbar-expand-sm navbar-light">
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Cadastro" value="Cadastro"/>
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Principal" value="Principal"/>
-        <input type="submit" class="btn" style="color:#574764" name="switch" id="Gráficos" value="Gráficos"/>
-        <input type="submit" class="btn shadow" style="color:#574764" name="switch" id="Histórico" value="Histórico"/>
-        </nav>
-        </form>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>';
+        include('historico.php');
       }
-    }
-    if (array_key_exists('switch', $_POST)) {
-      funcao($_POST);
     }
     ?>
 </body>
